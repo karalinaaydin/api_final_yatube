@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
-from django.db import models
 from django.core.exceptions import ValidationError
+from django.db import models
+
 
 User = get_user_model()
 
@@ -40,13 +41,15 @@ class Post(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='comments')
+        User, on_delete=models.CASCADE, related_name='comments',
+        verbose_name='Автор')
     post = models.ForeignKey(
-        Post, on_delete=models.CASCADE, related_name='comments')
-    text = models.TextField()
+        Post, on_delete=models.CASCADE, related_name='comments',
+        verbose_name='Публикация')
+    text = models.TextField(verbose_name='Текст')
     created = models.DateTimeField(
         'Дата добавления', auto_now_add=True, db_index=True)
-    
+
     class Meta:
         verbose_name = 'комментарий'
         verbose_name_plural = 'Комментарии'
@@ -54,9 +57,6 @@ class Comment(models.Model):
     def __str__(self):
         return self.title
 
-
-
-    
 
 class Follow(models.Model):
 
@@ -84,6 +84,6 @@ class Follow(models.Model):
         return f'{self.user} подписан на {self.following}'
 
     def clean(self):
-        """Гарантирует, что пользователь не может подписаться на самого себя."""
+        """Пользователь не может подписаться на самого себя."""
         if self.user == self.following:
             raise ValidationError("Нельзя подписаться на самого себя.")

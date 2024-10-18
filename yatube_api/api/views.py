@@ -1,14 +1,12 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, permissions, status
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from rest_framework.response import Response
-from rest_framework.exceptions import PermissionDenied
-from django.contrib.auth import get_user_model
+from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
+from rest_framework.permissions import IsAuthenticated
 
 from posts.models import Group, Post, Follow
 from .permissions import IsAuthorOrReadOnly
-from .serializers import CommentSerializer, GroupSerializer, PostSerializer, FollowSerializer
+from .serializers import (CommentSerializer, FollowSerializer,
+                          GroupSerializer, PostSerializer)
 
 
 class PostViewSet(viewsets.ModelViewSet):
