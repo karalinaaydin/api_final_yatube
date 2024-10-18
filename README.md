@@ -17,7 +17,7 @@
 
 1. Клонируйте репозиторий на свой компьютер:
     ```bash
-    git clone https://github.com/<ваш-логин>/api_yatube.git
+    git clone git@github.com:karalinaaydin/api_yatube.git
     ```
 
 2. Перейдите в директорию проекта:
@@ -28,7 +28,7 @@
 3. Создайте и активируйте виртуальное окружение:
     ```bash
     python -m venv venv
-    source venv/bin/activate  # Для Windows: venv\Scripts\activate
+    source venv/bin/activate
     ```
 
 4. Установите зависимости из файла `requirements.txt`:
@@ -61,24 +61,21 @@
 
 Пример ответа:
 ```json
-[
+{
+  "count": 123,
+  "next": "http://api.example.org/accounts/?offset=400&limit=100",
+  "previous": "http://api.example.org/accounts/?offset=200&limit=100",
+  "results": [
     {
-        "id": 1,
-        "text": "Мой первый пост!",
-        "author": "user123",
-        "pub_date": "2024-10-07T10:15:00Z",
-        "group": null,
-        "image": null
-    },
-    {
-        "id": 2,
-        "text": "Пост с изображением",
-        "author": "user456",
-        "pub_date": "2024-10-07T11:00:00Z",
-        "group": "nature",
-        "image": "/media/posts/post_image.jpg"
+      "id": 0,
+      "author": "string",
+      "text": "string",
+      "pub_date": "2021-10-14T20:41:29.648Z",
+      "image": "string",
+      "group": 0
     }
-]
+  ]
+}
 ```
 
 ### Создание нового поста
@@ -89,8 +86,9 @@
 
 ```json
 {
-  "text": "Тестовый пост для API",
-  "group": 1
+  "text": "string",
+  "image": "string",
+  "group": 0
 }
 ```
 
@@ -98,12 +96,12 @@
 
 ```json
 {
-  "id": 3,
-  "text": "Тестовый пост для API",
-  "author": "user123",
-  "pub_date": "2024-10-07T12:30:00Z",
-  "group": 1,
-  "image": null
+"id": 0,
+"author": "string",
+"text": "string",
+"pub_date": "2019-08-24T14:15:22Z",
+"image": "string",
+"group": 0
 }
 ```
 
