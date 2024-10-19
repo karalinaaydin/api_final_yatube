@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
+from rest_framework import mixins, viewsets
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
 
@@ -39,8 +39,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Фильтруем комментарии по post_id из URL."""
-        post = self.get_post()
-        return post.comments.all()
+        return self.get_post().comments.all()
 
     def perform_create(self, serializer):
         """Создаём комментарий, добавляя автора и пост."""
@@ -48,7 +47,18 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user, post=post)
 
 
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    viewsets.GenericViewSet
+):
+    """
+    ViewSet для подписок.
+
+    - Разрешены методы получения списка подписок и создания новой подписки.
+    - Нельзя удалять или изменять подписки.
+    """
+
     serializer_class = FollowSerializer
     permission_classes = (IsAuthenticated,)
     filter_backends = (SearchFilter,)
@@ -56,7 +66,7 @@ class FollowViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Возвращает все подписки для залогиненного пользователя."""
-        return Follow.objects.filter(user=self.request.user)
+        return self.request.user.follower.all()
 
     def perform_create(self, serializer):
         """Создает новую подписку."""
